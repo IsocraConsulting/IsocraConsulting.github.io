@@ -2,6 +2,7 @@
 title: Consultancy
 author: denish
 layout: page
+group: navigation
 ---
 Isocra has a high level of expertise in many aspects of software engineering and is happy to share this expertise with its clients. We are able to provide expertise at all stages of the software development process, for example:
 
