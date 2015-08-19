@@ -45,8 +45,10 @@ h1, h2, h3, h4 {
 /* tag_box */
 .tag_box {
   list-style: none;
-  margin: 0;
-  overflow: hidden; }
+  overflow: hidden;
+  padding-left: 0px;
+  margin: 0 0 20px;
+}
 
 .tag_box li {
   line-height: 28px; }
@@ -180,7 +182,6 @@ img {
 .content{
   width:100%;
   overflow:hidden;
-  background-color: #e9eff0;
 }
 
 .site {
@@ -532,14 +533,15 @@ img {
 }
 
 .date {
-  width:40px;
-  height:28px;
-  line-height:28px;
+  width:70px;
+  height:60px;
+  padding-top:6px;
+  line-height:16px;
   text-align:center;
   font-size:13px;
   color:#fff;
   background:#00ce9b;
-  border-bottom:2px solid #00a97f;
+  /*border-bottom:2px solid #00a97f;*/
   float:left;
   margin-bottom:5px;
 }
@@ -657,25 +659,15 @@ img {
 .btn {
   color:#fff;
   background:#a5a8aa;
-  height:48px;
-  line-height:48px;
-  padding:0px 22px;
-  text-shadow:none;
-  border-radius:0px;
-  border:0px;
-  border-bottom:2px solid #838587;
-  margin-bottom:2px;
 }
 
 .btn:hover {
   color:#fff;
   background:#00ce9b;
-  border-bottom:2px solid #00a97f;
 }
 
 .btn-gray2 {
   background:#5e6061;
-  border-bottom:2px solid #3e4041;
 }
 
 /* --------------------------------------------------------	*/
@@ -1462,6 +1454,10 @@ th {
 .social-network.youtube:hover,.active .social-network.youtube{ background-position: -1128px -24px}
 .social-network.zerply:hover,.active .social-network.zerply{ background-position: -1152px -24px}
 
+#wrap.content {
+  background-color: #e9eff0;
+}
+
 .navbar {
   border: none;
   border-bottom: 1px solid #cbcfd1;
@@ -1508,4 +1504,12 @@ th {
 ul.nav.navbar-nav {
   margin-top: 3px;
   margin-left: 18px;
+}
+
+form.navbar-form.navbar-right {
+  padding-right: 0px;
+}
+
+#footer .row {
+  margin-top: -32px;
 }
