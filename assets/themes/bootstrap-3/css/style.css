@@ -79,14 +79,6 @@ h1, h2, h3, h4 {
   color: #FFF; }
 
 /* --------------------------------------------------------	*/
-/*	Twitter Bootstrap */
-/*	Responsive media queries */
-/* --------------------------------------------------------	*/
-
-@import url("bootstrap.min.css");
-@import url("bootstrap-responsive.min.css");
-
-/* --------------------------------------------------------	*/
 /*	Base */
 /* --------------------------------------------------------	*/
 
@@ -113,12 +105,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial;
   font-weight: normal;
-	line-height: 1.25;
- 	color: #3c3c3c;
+  line-height: 1.25;
+  color: #4B46AD;
   margin:0px;
-	padding: 15px 0;
+  padding: 15px 0;
   clear:both;
 }
 
@@ -392,7 +384,7 @@ img {
   border-bottom:2px solid #fff;
   padding:15px 24px 16px 22px;
   background: transparent !important;
-  background:url(../img/menu-divider.png) right center no-repeat !important;
+  background:url("/assets/img/menu-divider.png") right center no-repeat !important;
 }
 
 .navbar .nav > li:first-child > a {
@@ -1488,4 +1480,32 @@ th {
   font-weight: bold;
   padding-left: 0px;
   padding-right: 25px;
+}
+
+.home-page p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.home-page h2 {
+  margin-top: 12px;
+  font-size: 28px;
+}
+
+.home-page h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.home-page a {
+  color: #0B0080;
+}
+
+.navbar-default .navbar-brand {
+  color: #0B0080;
+}
+
+ul.nav.navbar-nav {
+  margin-top: 3px;
+  margin-left: 18px;
 }
