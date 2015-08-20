@@ -42,18 +42,20 @@ In order to get the results of the visits back, we have a very simplistic `getRe
 
 In the visit methods, we create a matcher using `Pattern.matcher()` and then we can just call `matcher.matches()` to see if there&#8217;s a match. So, for the file version, the code is:
 
-<pre class="brush:java">public void visit(File file) {
-        <em>// Create a matcher</em>
-        Matcher matcher = _pattern.matcher(file.getName());
-        <em>// See if it matches</em>
-        if (matcher.matches()) {
-            <em>// Output the absolute path so that we know where the file is</em>
-            _output.append(file.getAbsolutePath()+"n");
-            <em>// Increment the count so we know how many we have found</em>
+{% highlight java %}
+public void visit(File file) {
+    // Create a matcher
+    Matcher matcher = _pattern.matcher(file.getName());
+    // See if it matches
+    if (matcher.matches()) {
+        // Output the absolute path so that we know where the file is
+        _output.append(file.getAbsolutePath()+"n");
+        // Increment the count so we know how many we have found
+        _count++;
+    }
+}
+{% endhighlight %}
 
-            _count++;
-        }
-    }</pre>
 
 ## Wrapping it up
 
@@ -65,11 +67,6 @@ CLASSPATH searching is only marginally more complicated. We can get at the CLASS
 
 Arguably a more elegant approach would be to implement an enumeration which could make both directories and  
 the CLASSPATH look the same so that we wouldn&#8217;t need to have essentially the same code in two places, but given that it&#8217;s pretty short and it is in only two places (so far), we&#8217;ll let ourselves off!
-
-## Resources
-
-  * [Download the source][2] – all the java source for the project.
-  * [View the JavaDoc][3].
 
  [1]: http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html
  [2]: /articles/jarSearchSrc.zip

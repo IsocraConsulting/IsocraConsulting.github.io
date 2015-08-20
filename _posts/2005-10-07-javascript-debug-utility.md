@@ -17,7 +17,8 @@ One of the problems when writing JavaScript is that you don&#8217;t have a devel
 
 Here we present three functions that allow you to put debug calls in your code and switch them on and off as needed. <!--more-->The debug calls go to a debug window, the advantage of this is that you can treat it just like a log file, you can save it away, you can compare the results of calls in a loop for example, and you can output time-sensitive information (though obviously writing to the window is going to have a small performance hit on your code).
 
-<pre class="brush:javascript">// Show the debug window
+{% highlight javascript %}
+// Show the debug window
 function showDebug() {
     window.top.debugWindow =
     window.open("",
@@ -30,8 +31,9 @@ function showDebug() {
     // open the document for writing
     window.top.debugWindow.document.open();
     window.top.debugWindow.document.write(
-        "&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Debug Window&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;&lt;PRE&gt;n");
-}</pre>
+        "<HTML><HEAD><TITLE>Debug Window</TITLE></HEAD><BODY><PRE>n");
+}
+{% endhighlight %}
 
 The first function `showDebug()` opens a new window (if you are using a pop-up blocker such as the excellent [Google Toolbar][3] you&#8217;ll need to allow pop-ups for the site while debugging). Rather than using a variable, we&#8217;ve used a property of `window.top`. The nice thing about this is that you don&#8217;t have to worry that your variable is going to clash with another one and you don&#8217;t have to worry about scope (whether the variable is declared in a frame or in the parent). By using `window.top`, wherever you call the code from, it will access the same value so the code works fine in pages with or without frames.
 
@@ -53,13 +55,14 @@ The parameters to `window.open([URL] [, name] [, features] [, replace])` are:
 
 Once we&#8217;ve created and opened the debug window, we then get hold of the document and start writing to it. We could have made it into a text document which is useful if you want to debug HTML that you&#8217;re generating from JavaScript, but we&#8217;ve opted here to make it into an HTML document which is nice since you can then put HTML tags into the debug messages (and you can always get at the raw debug by doing `View Source` anyway).
 
-<pre class="brush:javascript">// If the debug window exists, then write to it
-
+{% highlight javascript %}
+// If the debug window exists, then write to it
 function debug(text) {
     if (window.top.debugWindow && ! window.top.debugWindow.closed) {
         window.top.debugWindow.document.write(text+"n");
     }
-}</pre>
+}
+{% endhighlight %}
 
 The next function `debug` actually writes a debug message to the debug window. First we check to see if there is a window and that it&#8217;s not closed. If it is there and open, we simply call `document.write` and write in whatever text we&#8217;re called with followed by a carriage return so that it&#8217;s easy to read.
 
@@ -67,31 +70,28 @@ To use it in your code, simply add `debug("The value of my variable is "+var)` o
 
 We could do all sorts of other things. For example we could get the current time and put a timestamp, we could append `<BR>` at the end of each line so that the debug messages appear on different lines, or we could implement some concept of leve of debug by passing in an extra parameter. We&#8217;re sure you get the idea!
 
-<pre class="brush:javascript">// If the debug window exists, then close it
-
+{% highlight javascript %}
+// If the debug window exists, then close it
 function hideDebug() {
     if (window.top.debugWindow && ! window.top.debugWindow.closed) {
         window.top.debugWindow.close();
         window.top.debugWindow = null;
     }
-}</pre>
+}
+{% endhighlight %}
+
 
 Finally, the last function `hideDebug` simply closes the window and sets `window.top.debugWindow` to null so that we don&#8217;t try and write debug messages to it after this call.
 
-<p class="note">
-  <a href="/articles/jsDebugDemo.html">Click here for a demo</a>.
-</p>
-
 There are two ways of using this code: you can either just put a call to `showDebug` at the beginning of your code and then simply comment it out when you don&#8217;t want the debug, or you can have a debug button on your page somewhere that switches on and off the debug as necessary. Obviously even if you don&#8217;t call `showDebug`, there&#8217;s still going to be a performance hit for every call to `debug` since it will call the function and then inside the function will notice there&#8217;s nothing to do and return. You can improve this slightly by calling it as follows:
 
-<pre class="brush:javascript">if (window.top.debugWindow) debug("the value of my variable is "+var);
-</pre>
+{% highlight javascript %}
+if (window.top.debugWindow) debug("the value of my variable is "+var);
+{% endhighlight %}
 
 But unless the performance of your script is unacceptable to the user, we&#8217;d recommend using it in the simplest form to make the code as readable as possible.
 
 We&#8217;ve tested the code with Microsoft&#8217;s Internet Explorer, Mozilla Firefox and Opera (see the note on the [demo page][5]).
-
-Download a [zipped version of debug.js][6] for use in your projects.
 
 ## <a name="may08">May 2008 Update</a>
 

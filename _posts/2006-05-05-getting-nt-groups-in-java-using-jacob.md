@@ -16,24 +16,26 @@ The next approach (and the one I&#8217;m stuck with at the moment), was to use a
 
 So having got the username, I now need to get the groups the user is in. The best current way is to use ADSI, and there&#8217;s an article I wrote on how to do this from scratch [here][2]. But recently I&#8217;ve been using [Jacob][3] which is a Java to COM bridge and makes everything much easier. Here&#8217;s the code needed to get the groups when using Jacob:
 
-<pre class="brush:java">public static List GetUserGroups(String domain, String username) {
-        ActiveXComponent user = new ActiveXComponent("WinNT://"+domain+"/"+username);
+{% highlight c++ %}
+public static List GetUserGroups(String domain, String username) {
+    ActiveXComponent user = new ActiveXComponent("WinNT://"+domain+"/"+username);
 
-        ArrayList groupsList = new ArrayList();
+    ArrayList groupsList = new ArrayList();
 
-        // now get the groups
-        Variant[] params = new Variant[]{};
-        Variant groups = user.invoke("Groups", params);
-        Dispatch groupsDispatch = groups.toDispatch();
-        EnumVariant groupsEnum = new EnumVariant(groupsDispatch);
-        while (groupsEnum.hasMoreElements()) {
-            Variant group = groupsEnum.Next();
-            Dispatch pGroup = group.toDispatch();
-            Variant groupName = Dispatch.get(pGroup, "Name");
-            groupsList.add(groupName.toString());
-        }
-        return groupList;
-    }</pre>
+    // now get the groups
+    Variant[] params = new Variant[]{};
+    Variant groups = user.invoke("Groups", params);
+    Dispatch groupsDispatch = groups.toDispatch();
+    EnumVariant groupsEnum = new EnumVariant(groupsDispatch);
+    while (groupsEnum.hasMoreElements()) {
+        Variant group = groupsEnum.Next();
+        Dispatch pGroup = group.toDispatch();
+        Variant groupName = Dispatch.get(pGroup, "Name");
+        groupsList.add(groupName.toString());
+    }
+    return groupList;
+}
+{% endhighlight %}    
 
 In order to use the code in your web apps, you need to bundle not only the Jacob JAR but also the DLL and then you need to put the java.library.path into the TomCat OPTS so that it can find the DLL.
 

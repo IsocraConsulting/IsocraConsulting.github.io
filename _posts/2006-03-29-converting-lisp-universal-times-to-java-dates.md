@@ -12,7 +12,8 @@ tags:
 ---
 I don&#8217;t suppose that this is something that many people need to do, but just in case I thought I&#8217;d post this little code snippet<!--more-->:
 
-<pre class="brush:java">public class TestLispUniversalTime {
+{% highlight java %}
+public class TestLispUniversalTime {
 
     /** the number of milliseconds between 1990 and 1970 */
     private static final long msecsTo1970 = -2208988799684L;
@@ -48,4 +49,5 @@ I don&#8217;t suppose that this is something that many people need to do, but ju
         System.out.println("Lisp thinks this is 00:00:01 on January 1, 1900 GMT");
         displayDate(convertToDate(1L));
     }
-}</pre>
+}
+{% endhighlight %}
