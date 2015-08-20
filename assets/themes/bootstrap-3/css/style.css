@@ -380,16 +380,12 @@ img {
 }
 
 .navbar .nav > li > a {
-	color: #8c8e90 !important;
+  color: #8c8e90 !important;
   text-shadow: none;
   border-bottom:2px solid #fff;
   padding:15px 24px 16px 22px;
   background: transparent !important;
   background:url("/assets/img/menu-divider.png") right center no-repeat !important;
-}
-
-.navbar .nav > li:first-child > a {
-  padding-left:0px !important;
 }
 
 .navbar .nav > li:last-child > a {
@@ -1503,7 +1499,7 @@ th {
 
 ul.nav.navbar-nav {
   margin-top: 3px;
-  margin-left: 18px;
+  margin-left: 10px;
 }
 
 form.navbar-form.navbar-right {
@@ -1512,4 +1508,10 @@ form.navbar-form.navbar-right {
 
 #footer .row {
   margin-top: -32px;
+}
+
+.post-full .date {
+  background-image: url('/assets/img/diary-background.png');
+  background-repeat: repeat-x;
+  padding-top: 16px;
 }
