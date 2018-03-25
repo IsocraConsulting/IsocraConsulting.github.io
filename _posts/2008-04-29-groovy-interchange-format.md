@@ -30,25 +30,29 @@ There are a number of different ways I could use to encapsulate this data:
 
 The advantage of using Groovy is that, like JSON, it&#8217;s very easy and pretty compact to write. The sort of data I&#8217;m looking at is:
 
-<pre class="brush:java">[
-    points: [[10, 10, "Visit 1", "javascript:alert('Visit 1')], [10, 40, "Visit 2"], 
-             [40, 10, "Visit 3"], [40, 40, "Visit 4"]],
+```groovy
+[
+    points: [
+        [10, 10, "Visit 1", "javascript:alert('Visit 1')"], 
+        [10, 40, "Visit 2"], 
+        [40, 10, "Visit 3"], [40, 40, "Visit 4"]
+    ],
     xLabel: 'Waiting Time',
     yLabel: 'Cost per visit'
 ]
-</pre>
+```
 
 So effectively, I&#8217;m creating a simple Map (for the points I&#8217;m using a list because the order may be significant).
 
 It&#8217;s extensible because I can add new keys and values (though the same applies to XML or JSON). But the best bit is that in order to parse it, all you have to do is:
 
-<pre class="brush:java">GroovyShell shell = new GroovyShell();
+```groovy
+GroovyShell shell = new GroovyShell();
     Map data = (Map) shell.evaluate(groovyData);
 
     String yLabel = (String) data.get("yLabel");
     ....
-</pre>
-
+```
 Obviously, this is a simplification because I need to check that the Groovy is well formed, parsable and in the format that we expect, but it isn&#8217;t any more difficult than it would be in XML or JSON.
 
 Any thoughts or comments on this approach would be welcome!

@@ -24,7 +24,8 @@ However, next I tried connecting to MySQL directly using `Class.forName(""com.my
 
 Trying the JNDI steps manually in a Java scriptlet gave a different error. Here&#8217;s the code:
 
-<pre>Context initContext = new InitialContext();
+```java
+Context initContext = new InitialContext();
 out.println("1. Got the initial context");
 String envContextName = "java:/comp/env";
 Context envContext  = (Context)initContext.lookup(envContextName);
@@ -33,46 +34,44 @@ String jndiName = "jdbc/myTest;
 DataSource ds = (DataSource)envContext.lookup(jndiName);
 out.println("3. Got the datasource: "+ds.getClass().getName()+" for context "+jndiName);
 Connection conn = ds.getConnection();
-out.println("4. Got the connection: "+conn);</pre>
+out.println("4. Got the connection: "+conn);
+```
 
 This time the error I got was: `javax.naming.NamingException: Cannot create resource instance`. So it seemed as if some class was missing, but it wasn&#8217;t obvious which one.
 
 I had the whole thing working fine on my development server, so I decided to see which classes were being loaded and where from. I found that you can find where a class has been loaded from quite easily (see [here][1]).  
 So I created another test JSP with the following Java snippet (you&#8217;ll have to add the appropriate imports):
 
-<pre>&lt;%
+```jsp
+<%jsp
 // A list of classes to try and load and see where they come from
 String[] classNames = {
-"com.mysql.jdbc.Driver",
-"org.apache.commons.dbcp.datasources.SharedPoolDataSource",
-"org.apache.tomcat.dbcp.dbcp.BasicDataSource",
-"org.apache.tomcat.dbcp.dbcp.PoolableConnection"
+    "com.mysql.jdbc.Driver",
+    "org.apache.commons.dbcp.datasources.SharedPoolDataSource",
+    "org.apache.tomcat.dbcp.dbcp.BasicDataSource",
+    "org.apache.tomcat.dbcp.dbcp.PoolableConnection"
 };
 
 for (int i = 0; i &lt; classNames.length; i++) {
-String className = classNames[i];
-out.print("
-
-"+className+"
-");
-try {
-// try and load the class
-Class c = Class.forName(className);
-out.println("loaded successfully:  "+c+"");
-// if successful, find out the location (gives the location of the jar)
-ProtectionDomain pDomain = c.getProtectionDomain();
-CodeSource cSource = pDomain.getCodeSource();
-out.println("    Location:  "+cSource.getLocation()+"");
-} catch (ClassNotFoundException e) {
-out.println("<strong>Error could not find class</strong>");
-} catch (Throwable t) {
-out.println("<strong>Error could not load</strong> ("+t+")");
+    String className = classNames[i];
+    out.print("\n"+className+"\n");
+    try {
+        // try and load the class
+        Class c = Class.forName(className);
+        out.println("loaded successfully:  "+c+"");
+        // if successful, find out the location (gives the location of the jar)
+        ProtectionDomain pDomain = c.getProtectionDomain();
+        CodeSource cSource = pDomain.getCodeSource();
+        out.println("    Location:  "+cSource.getLocation()+"");
+    } catch (ClassNotFoundException e) {
+        out.println("<strong>Error could not find class</strong>");
+    } catch (Throwable t) {
+        out.println("<strong>Error could not load</strong> ("+t+")");
+    }
+    out.println("\n");
 }
-out.println("
-
-");
-}
-%&gt;</pre>
+%>
+```
 
 I chose these classes to test because when running the initial test on my local machine, I found that the DataSource class created was `org.apache.tomcat.dbcp.dbcp.BasicDataSource`. Running this on my development machine told me that the last two classes were in the jar `naming-factory-dbcp.jar` which mysteriously wasn&#8217;t in common/lib on our production server. Copying it there and restarting Tomcat did the trick and now the JNDI datasource look up works fine.
 

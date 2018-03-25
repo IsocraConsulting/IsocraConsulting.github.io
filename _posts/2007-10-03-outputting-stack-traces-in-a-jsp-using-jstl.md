@@ -15,7 +15,7 @@ tags:
 If you&#8217;re writing a JSP using the JSTL tag <c:catch var=&#8221;myError&#8221;> &#8230; </c:catch> then I&#8217;m sure that you know that the next thing to do is to check after the closing catch tag to see if myError is empty. If not you can output some useful error message having successfully caught any exception. However, sometimes it&#8217;s useful to actually output the stack trace (when debugging a site for example). It turns out not to be difficult to do this. Simply copy in the following:
 
 
-```jsp
+```html
 <c:if test="${not empty myError}">
 <p class="error">An error occured: <c:out value="${myError}"/></p>
 <pre>

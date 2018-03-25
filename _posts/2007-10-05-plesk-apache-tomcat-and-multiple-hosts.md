@@ -21,11 +21,12 @@ The problem came with mapping these uploaded web applications through Apache so 
 
 This is normally set up using JKMount, something of the general form, is added to the httpd.conf Apache configuration file:
 
-<pre>&lt;ifmodule>
+```apacheconfig
+<ifmodule>
 JkMount /myapp ajp13
 JkMount /myapp/* ajp13
-&lt;/ifmodule></pre>
-
+</ifmodule>
+```
 This says pass anything starting with /myapp to the ajp13 worker. The ajp13 worker is defined in workers.properties (normally in the same directory as the httpd.conf file). Generally the default version of workers.properties is fine enough.
 
 But in this case, the ajp13 worker is set up to route things through to the normal Tomcat set up, i.e. port 8009 and host name &#8220;localhost&#8221;. So that means that any web apps that you want to run on host xxx actually have to be installed in localhost and are also available as localhost:8080. Of course, that&#8217;s not where Plesk has put them. Plesk has installed them in the PSA service for the host that you configured, so not surprisingly it doesn&#8217;t work. So&#8230;
@@ -52,16 +53,18 @@ This time, though upload them into the &#8220;right&#8221; place. Look in Tomcat
 
 Next comes the &#8220;brave&#8221; bit. You&#8217;ll need to create a new worker in workers.properties. If you look at the workers.properties file, you&#8217;ll see that the ajp13 worker is defined something like the following:
 
-<pre>worker.ajp13.port=8009
+```apacheconfig
+worker.ajp13.port=8009
 worker.ajp13.host=localhost
 worker.ajp13.type=ajp13
 #
 # Specifies the load balance factor when used with
 # a load balancing worker.
 # Note:
-#  ----&gt; lbfactor must be &gt; 0
-#  ----&gt; Low lbfactor means less work done by the worker.
-worker.ajp13.lbfactor=1</pre>
+#  ----> lbfactor must be > 0
+#  ----> Low lbfactor means less work done by the worker.
+worker.ajp13.lbfactor=1
+```
 
 So, it specifies that port 8009 is used for AJP and the host is localhost. That&#8217;s why using ajp13 sent your requests to localhost!
 
@@ -69,24 +72,31 @@ We want to add a new worker that uses our host&#8217;s port and hostname. Lookin
 
 So you need to create a new worker as follows:
 
-<pre>worker.<em>mydomain</em>.port=<strong>9009</strong>
-worker.<em>mydomain</em>.host=<strong>mydomain.com</strong>
-worker.<em>mydomain</em>.type=ajp13
+```apacheconfig
+worker.mydomain.port=9009
+worker.mydomain.host=mydomain.com
+worker.mydomain.type=ajp13
 # I'm not sure if this is needed for load balancing, but it
 # doesn't seem to do any harm if you add it
-worker.mydomain.lbfactor=1</pre>
+worker.mydomain.lbfactor=1
+```
 
 I think you also need to add it to two other places. At the top of the file you&#8217;ll find the worker.list:
 
-<pre>worker.list=ajp12, ajp13, jboss, <strong>mydomain</strong></pre>
+```apacheconfig
+worker.list=ajp12, ajp13, jboss, mydomain
+```
 
 And nearer the bottom, I also added it to the load balancer:
 
-<pre>worker.loadbalancer.balanced_workers=ajp12, ajp13, jboss, <strong>mydomain</strong></pre>
-
+```apacheconfig
+worker.loadbalancer.balanced_workers=ajp12, ajp13, jboss, mydomain
+```
 The next step is to create/edit the `vhost.conf` file as described above, but instead of using ajp13, use your new worker `mydomain` for example:
 
-<pre>JkMount /myapp    mydomain
-JkMount /myapp/* mydomain</pre>
+```apacheconfig
+JkMount /myapp   mydomain
+JkMount /myapp/* mydomain
+```
 
 Now restart Apache as before and you should find that any requests for the URL /myapp on your specified host should now route through to the right application in the right Tomcat host.

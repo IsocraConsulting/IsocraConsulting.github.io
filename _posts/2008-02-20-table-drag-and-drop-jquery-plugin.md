@@ -340,24 +340,28 @@ This TableDnD plugin allows the user to reorder rows within a table, for example
 
 The HTML for the table is very straight forward (no Javascript, pure HTML):
 
-{% highlight html %}<table id="table-1" cellspacing="0" cellpadding="2" >
+```html
+<table id="table-1" cellspacing="0" cellpadding="2" >
     <tr id="1"><td>1</td><td>One</td><td>some text</td></tr>
     <tr id="2"><td>2</td><td>Two</td><td>some text</td></tr>
     <tr id="3"><td>3</td><td>Three</td><td>some text</td></tr>
     <tr id="4"><td>4</td><td>Four</td><td>some text</td></tr>
     <tr id="5"><td>5</td><td>Five</td><td>some text</td></tr>
     <tr id="6"><td>6</td><td>Six</td><td>some text</td></tr>
-</table>{% endhighlight %}
+</table>
+```
 
 To add in the &#8220;draggability&#8221; all we need to do is add a line to the `$(document).ready(...)` function  
 as follows:
 
-{% highlight html %}<script type="text/javascript">
+```html
+<script type="text/javascript">
 $(document).ready(function() {
     <span class="comment">// Initialise the table</span>
     $("#table-1").tableDnD();
 });
-</script>{% endhighlight %}
+</script>
+```
 
 In the example above we&#8217;re not setting any parameters at all so we get the default settings. There are a number of parameters you can set in order to control the look and feel of the table and also to add custom behaviour on drag or on drop. The parameters are specified as a map in the usual way and are described below:
 
@@ -382,30 +386,32 @@ scrollAmount
 
 This second table has has an onDrop function applied as well as an onDragClass. The javascript to set this up is as follows:
 
-{% highlight javascript %}$(document).ready(function() {
+```javascript
+$(document).ready(function() {
 
-	// Initialise the first table (as before)
-	$("#table-1").tableDnD();
+    // Initialise the first table (as before)
+    $("#table-1").tableDnD();
 
-	// Make a nice striped effect on the table
-	$("#table-2 tr:even').addClass('alt')");
+    // Make a nice striped effect on the table
+    $("#table-2 tr:even').addClass('alt')");
 
-	// Initialise the second table specifying a dragClass and an onDrop function that will display an alert
-	$("#table-2").tableDnD({
-	    onDragClass: "myDragClass",
-	    onDrop: function(table, row) {
+    // Initialise the second table specifying a dragClass and an onDrop function that will display an alert
+    $("#table-2").tableDnD({
+        onDragClass: "myDragClass",
+        onDrop: function(table, row) {
             var rows = table.tBodies[0].rows;
             var debugStr = "Row dropped was "+row.id+". New order: ";
             for (var i=0; i<rows.length; i++) {
                 debugStr += rows[i].id+" ";
             }
-	        $(#debugArea).html(debugStr);
-	    },
-		onDragStart: function(table, row) {
-			$(#debugArea).html("Started dragging row "+row.id);
-		}
-	});
-});{% endhighlight %}
+            $('#debugArea').html(debugStr);
+        },
+        onDragStart: function(table, row) {
+            $('#debugArea').html("Started dragging row "+row.id);
+        }
+    });
+});
+```
 
 <div class="tableDemo">
   <div id="debugArea" style="float: right; width:45%">
@@ -618,11 +624,13 @@ You can then use this as part of an Ajax load.
 This third table demonstrates calling the serialise function inside onDrop (as shown below). It also demonstrates the &#8220;nodrop&#8221; class on row 3 and &#8220;nodrag&#8221; class on row 5, so you can&#8217;t pick up row 5 and  
 you can&#8217;t drop any row on row 3 (but you can drag it).
 
-{% highlight javascript %}$('#table-3').tableDnD({
-        onDrop: function(table, row) {
-            alert($.tableDnD.serialize());
-        }
-    });{% endhighlight %}
+```javascript
+$('#table-3').tableDnD({
+    onDrop: function(table, row) {
+        alert($.tableDnD.serialize());
+    }
+});
+```
 
 <div class="tableDemo">
   <div id="AjaxResult" style="float: right; width: 30%; border: 1px solid silver; padding: 4px; font-size: 90%;">
@@ -1024,12 +1032,14 @@ This table has multiple TBODYs. The functionality isn&#8217;t quite working prop
 
 The following table demonstrates the use of the default regular expression. The rows have IDs of the form table5-row-1, table5-row-2, etc., but the regular expression is `/[^-]*$/` (this is the same as used in the [NestedSortable][4] plugin for consistency). This removes everything before and including the last hyphen, so the serialised string just has 1, 2, 3 etc. You can replace the regular expression by setting the `serializeRegexp` option, you can also just set it to null to stop this behaviour.
 
-{% highlight javascript %}$('#table-5').tableDnD({
-        onDrop: function(table, row) {
-            alert($('#table-5').tableDnDSerialize());
-        },
-        dragHandle: ".dragHandle"
-    });{% endhighlight %}
+```javascript
+$('#table-5').tableDnD({
+    onDrop: function(table, row) {
+        alert($('#table-5').tableDnDSerialize());
+    },
+    dragHandle: ".dragHandle"
+});
+```
 
 <div class="tableDemo">
   <table id="table-5" cellspacing="0" cellpadding="2" >
@@ -1141,11 +1151,13 @@ In fact you will notice that I have also set the dragHandle on this table. This 
 
 Here I&#8217;ve actually added an extra effect which adds a background image to the first cell in the row whenever you enter it using the jQuery `hover` function as follows:
 
-{% highlight javascript %}$("#table-5 tr").hover(function() {
-          $(this.cells[0]).addClass('showDragHandle');
-    }, function() {
-          $(this.cells[0]).removeClass('showDragHandle');
-    });{% endhighlight %}
+```javascript
+$("#table-5 tr").hover(function() {
+      $(this.cells[0]).addClass('showDragHandle');
+}, function() {
+      $(this.cells[0]).removeClass('showDragHandle');
+});
+```
 
 This provides a better visualisation of what you can do to the row and where you need to go to drag it (I hope).
 

@@ -14,11 +14,13 @@ There are a number of ways round this. <!--more--> One way is to add an extra pa
 
 If you can modify the code that generates the data for the Ajax request, then you can use the same mechanisms as you use to control normal page caching. For example in a JSP you can use:
 
-<pre class="brush:javascript">&lt;%
+```javascript
+<%
 // To ensure that IE doesn't cache the results of an Ajax call
 response.setHeader("Cache-Control","no-store, no-cache, must-revalidate"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
 response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
-%&gt;</pre>
+%>
+````
 
 This works for IE6 and IE7. Firefox and Safari don&#8217;t seem to cache Ajax requests.

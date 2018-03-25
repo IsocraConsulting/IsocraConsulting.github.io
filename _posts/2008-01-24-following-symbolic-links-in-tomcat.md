@@ -17,8 +17,10 @@ But now I&#8217;ve finally managed to work out how to make Tomcat follow symboli
 
 `allowLinking="true"` to the Context tag in the context.xml file. For Tomcat 5.5 and later, I find the most convenient way is to have a META-INF directory in the web application directory and have a context.xml file in this. Like this all the files to do with the web application are in the same place and copying and deploying is easy. So, my context.xml looks like:
 
-<pre class="brush:xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;Context path="/myapp" allowLinking="true"&gt;
-&lt;/Context&gt;</pre>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/myapp" allowLinking="true">
+</Context>
+```
 
 As soon as you restart Tomcat, the change comes into effect and you can share directories between applications or even link to directories outside the web application home directory. If you still using Tomcat 4.x then you can&#8217;t use the context.xml in the META-INF directory. Instead you have to put it in the server.xml itself.

@@ -10,7 +10,7 @@ categories:
 ---
 I&#8217;m afraid that I don&#8217;t know exactly when it happened, but looking at our web-stats (produced by [AWStats][1]), the top ten browsers used to access our site are as shown below. It&#8217;s not representative of course, but it&#8217;s interesting that Firefox is so far above Internet Explorer.<!--more-->
 
-<table class="browsers">
+<table class="browsers table table-striped">
   <tr>
     <th>
       &nbsp;

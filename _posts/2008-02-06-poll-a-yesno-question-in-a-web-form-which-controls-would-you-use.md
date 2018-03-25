@@ -17,7 +17,7 @@ We&#8217;re creating a web application that asks a number of questions about pum
 
 Here&#8217;s the question with the three options we&#8217;ve currently got:
 
-<table>
+<table class="table table-striped">
   <tr>
     <td>
       Do you need a sealless pump?
@@ -51,9 +51,7 @@ Here&#8217;s the question with the three options we&#8217;ve currently got:
 
 Jakob Nielsen at useit.com in his article [Checkboxes vs Radio Buttons][1] tells us that radio buttons are used &#8220;when there is a list of two or more options that are mutually exclusive and the user must select exactly one choice&#8221; and a single checkbox is used &#8220;for a single option that the user can turn on or off&#8221;. But this case is a little special since we don&#8217;t want the user to forget to select something. The nice thing about using the radio buttons or the drop-down is that you have a way of detecting if the user has actually chosen anything yet. On the whole though, the drop-down list is probably the least user-friendly though perhaps the easiest to generate programmatically.
 
-[poll=1]
-
-(This poll is a great WordPress plugin developed by [Lester Chan][2])
+**This poll is now closed.**
 
  [1]: http://www.useit.com/alertbox/20040927.html
  [2]: http://lesterchan.net/wordpress/
