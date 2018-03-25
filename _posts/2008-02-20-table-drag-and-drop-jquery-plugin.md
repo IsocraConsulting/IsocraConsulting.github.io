@@ -14,10 +14,226 @@ tags:
   - Web
 extra_js:
   - https://rawgit.com/isocra/TableDnD/master/js/jquery.tablednd.js
+  - /assets/js/tableDnDblog.js
 ---
+<style type="text/css">
+.tableDemo {
+    background-color: white;
+    border: 1px solid #666699;
+    margin-right: 10px;
+    padding: 6px;
+}
+.tableDemo table {
+    border: 1px solid silver;
+}
+.tableDemo td {
+    padding: 2px 6px
+}
+.tableDemo th {
+    color: white;
+    text-shadow: 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A, 0 0 18px #29215A;
+    border-bottom: 8px double #29215A;
+    padding: 10px;
+}
+#table-2 th {
+    background-color: #29215A;
+    color: white;
+}
+#table-2 td, th {
+    padding-right: 8px;
+}
+.category td {
+    background-color: #E4EBF3;
+}
+table {
+    /*position: relative;*/
+    border-collapse: separate;
+    border-spacing: 0;
+}
+tr {
+    /*position: relative;*/
+    /*display: block;*/
+}
+.tDnD_whileDrag {
+    /*z-index: 500;*/
+    /*width: 90%;*/
+    /*margin: -10px;*/
+    /*display: table-cell;*/
+    /*color: transparent;*/
+    /*width: 0px*/
+}
+.tDnD_whileDrag td {
+    background-color: #eee;
+    /*-webkit-box-shadow: 11px 5px 12px 2px #333, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+    -webkit-box-shadow: 6px 3px 5px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;
+    /*-moz-box-shadow: 6px 4px 5px 1px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+    /*-box-shadow: 6px 4px 5px 1px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+}
+tr.alt td {
+    background-color: #ecf6fc;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    white-space: nowrap;
+}
+tr.myDragClass td {
+    /*position: fixed;*/
+    color: yellow;
+    text-shadow: 0 0 10px black, 0 0 10px black, 0 0 8px black, 0 0 6px black, 0 0 6px black;
+    background-color: #999;
+    -webkit-box-shadow: 0 12px 14px -12px #111 inset, 0 -2px 2px -1px #333 inset;
+}
+tr.myDragClass td:first-child {
+    -webkit-box-shadow: 0 12px 14px -12px #111 inset, 12px 0 14px -12px #111 inset, 0 -2px 2px -1px #333 inset;
+}
+tr.myDragClass td:last-child {
+    -webkit-box-shadow: 0 12px 14px -12px #111 inset, -12px 0 14px -12px #111 inset, 0 -2px 2px -1px #333 inset;
+}
+#table-2 {
+    margin: 0 0 1em 0;
+    padding: 0
+}
+tr.nodrop td {
+    border-bottom: 1px solid #00bb00;
+    color: #00bb00;
+}
+tr.nodrag td {
+    border-bottom: 1px solid #FF6600;
+    color: #FF6600;
+}
+div.result {
+    background-color: #F7F7F9;
+}
+tr.alt tr:after, .group:after {
+    visibility: hidden;
+    display: block;
+    content:"";
+    clear: both;
+    height: 0;
+}
+table input, tr td input, tr input, tr.myDragClass input, tbody tr td input {
+    z-index: -10;
+    text-align: right;
+    float: right;
+    height: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+td.dragHandle {
+}
+td.showDragHandle {
+    background-image: url(images/updown2.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: move;
+}
+.versionHistory td {
+    vertical-align: top;
+    padding: 0.3em;
+    white-space: normal;
+}
+div.indent {
+    width: 30px;
+    float: left;
+}
+#sprintlist_table th {
+    color: white;
+    /*border-style: ;*/
+    text-shadow: 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600, 0 0 18px #FF6600;
+    border-bottom: 14px double #FF6600;
+    padding: 10px;
+}
+.sprintlist-drag td.small_buttons div button {
+    /*font-size: xx-small;*/
+    /*height: 18px;*/
+    /*color: #333;*/
+    /*cursor: pointer;*/
+    /*background-color: #f4a460;*/
+    box-shadow:0px 2px 3px black inset;
+    -moz-box-shadow:0px 2px 3px black inset;
+    -webkit-box-shadow:0px 2px 3px black inset;
+    /*border: 0px;*/
+    /*background-color: #ccc;*/
+}
+.sprintlist-drag td.small_buttons div button:first-child {
+    box-shadow:2px 2px 3px black inset;
+    -moz-box-shadow:2px 2px 3px black inset;
+    -webkit-box-shadow:2px 2px 3px black inset;
+    /*border: 0px;*/
+    /*background-color: #ccc;*/
+}
+.sprintlist-drag td {
+    background-color: #f4a460;
+    /*-webkit-box-shadow: 11px 5px 12px 2px #333, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+    -webkit-box-shadow: 6px 3px 5px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;
+    /*-moz-box-shadow: 6px 4px 5px 1px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+    /*-box-shadow: 6px 4px 5px 1px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+}
+.sprintlist-drag td:last-child {
+    /*-webkit-box-shadow: 8px 7px 12px 0 #333, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;*/
+    -webkit-box-shadow: 1px 8px 6px -4px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset;
+    /*-moz-box-shadow: 0 9px 4px -4px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc inset, -1px 0 0 #ccc inset;*/
+}
+tr.group_heading td eojq border-bottom: 8px double #FF6600;
+ color: #FF6600;
+ font-size: larger;
+ font-weight: bolder;
+
+}
+td.small_buttons div {
+    display: inline-block;
+    position: relative;
+}
+#table-6 tr {
+    background-color: red;
+    z-index: -1000;
+    /*background-color:rgb(165, 182, 229);*/
+    display: block;
+    margin-bottom: 5px;
+    /*box-shadow:0 0 0 black;*/
+    /*-moz-box-shadow:0 0 0 black,;*/
+    /*-webkit-box-shadow:0 0 0 black;*/
+}
+#table-6 td {
+    padding:5px;
+    /*text-align:left;*/
+}
+#table-7 {
+    border: #000000 solid 1px;
+}
+td.small_buttons div button {
+    font-size: xx-small;
+    height: 18px;
+    color: #333;
+    cursor: pointer;
+    background-color: whiteSmoke;
+}
+td.small_buttons div button:first-child {
+    margin-left: 0;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-topleft: 4px;
+}
+td.small_buttons div button:last-child {
+    margin-left: -2px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-topright: 4px;
+}
+</style>
+
 I&#8217;ve been using [JQuery][1] for a while now and really agree with its tag line that it&#8217;s the &#8220;The Write Less, Do More, JavaScript Library&#8221;. We&#8217;ve also got this [code for dragging and dropping][2] table rows that has proved very popular, so it seemed natural to combine the two and wrap up the table drag and drop as a JQuery plugin.<!--more-->
 
-  
+**Update:** You can now read the latest docs at [https://github.com/isocra/TableDnD](https://github.com/isocra/TableDnD)  
 
 
 ## Why have another plugin?
@@ -124,7 +340,7 @@ This TableDnD plugin allows the user to reorder rows within a table, for example
 
 The HTML for the table is very straight forward (no Javascript, pure HTML):
 
-{% highlight html %}<table id="table-1" cellspacing="0" cellpadding="2">
+{% highlight html %}<table id="table-1" cellspacing="0" cellpadding="2" >
     <tr id="1"><td>1</td><td>One</td><td>some text</td></tr>
     <tr id="2"><td>2</td><td>Two</td><td>some text</td></tr>
     <tr id="3"><td>3</td><td>Three</td><td>some text</td></tr>
@@ -195,7 +411,7 @@ This second table has has an onDrop function applied as well as an onDragClass. 
   <div id="debugArea" style="float: right; width:45%">
   </div>
   
-  <table id="table-2" cellspacing="0" cellpadding="2" style="width:50%">
+  <table id="table-2" cellspacing="0" cellpadding="2" style="width:50%" >
     <tr id="2.1">
       <td>
         1
@@ -419,7 +635,7 @@ you can&#8217;t drop any row on row 3 (but you can drag it).
     </p>
   </div>
   
-  <table id="table-3" cellspacing="0" cellpadding="2" style="width: 68%">
+  <table id="table-3" cellspacing="0" cellpadding="2" style="width: 68%" >
     <tr id="3.1">
       <td>
         1
@@ -509,7 +725,7 @@ you can&#8217;t drop any row on row 3 (but you can drag it).
 This table has multiple TBODYs. The functionality isn&#8217;t quite working properly. You can only drag the rows inside their own TBODY, you can&#8217;t drag them outside it. Now this might or might not be what you want, but unfortunately if you then drop a row outside its TBODY you get a Javascript error because inserting after a sibling doesn&#8217;t work. This will be fixed in the next version. The header rows all have the classes &#8220;nodrop&#8221; and &#8220;nodrag&#8221; so that they can&#8217;t be dragged or dropped on.
 
 <div class="tableDemo">
-  <table id="table-4" cellspacing="0" cellpadding="2">
+  <table id="table-4" cellspacing="0" cellpadding="2" >
     <tr id="4.0" class="nodrop nodrag">
       <th>
         H1
@@ -816,7 +1032,7 @@ The following table demonstrates the use of the default regular expression. The 
     });{% endhighlight %}
 
 <div class="tableDemo">
-  <table id="table-5" cellspacing="0" cellpadding="2">
+  <table id="table-5" cellspacing="0" cellpadding="2" >
     <tr id="table5-row-1">
       <td class="dragHandle">
       </td>

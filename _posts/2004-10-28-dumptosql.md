@@ -29,7 +29,8 @@ The first thing we need to do is to connect to the database. We&#8217;ve used `C
 
 In order to make the code as easy to use as possible, we&#8217;ve used a properties file to contain all the configuration information, so the username, password, driverURL, driverClass, schema pattern, tableName pattern, catalog and table name quote character are all read from the properties file. To use the code, you will need to create a properties file where you fill in the values as described below:
 
-<pre class="brush:shell"># Properties file for controlling db2sql.java
+```properties
+# Properties file for controlling db2sql.java
 
 # Driver information (make sure the appropriate classes/jars are on the classpath)
 # ==================
@@ -64,7 +65,8 @@ password=&lt;password&gt;
 # table will probably become significant and this may not be what you want. Note also
 # that this is <strong>not</strong> the same as the quote character for data values. For that a single
 # quote is used always. Leave this blank for no quote character.
-# columnName.quoteChar="</pre>
+# columnName.quoteChar="
+```
 
 ## Notes
 

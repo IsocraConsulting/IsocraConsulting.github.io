@@ -19,37 +19,26 @@ I use Firefox for initial testing as it gives much better error messages than IE
 
 Debugging in Internet Explorer still seems years behind and I haven&#8217;t found anything equivalent. I&#8217;ve already recommended the developer toolbar and the latest version of that is even better for viewing the DOM and CSS properties, but for Javascript there doesn&#8217;t seem to be anything apart from the Microsoft Script Debugger which is temperamental to say the least. I also use the debug code published in our [Javascript Debugging][3] article (which should probably be called Javascript Logging really). In fact found a way to display all the properties of a given object which is pretty useful if you&#8217;ve got something and it doesn&#8217;t seem to have the properties you expect. Here it is:
 
-<pre class="brush:javascript">function debugShowProperties(object) {
+```javascript
+function debugShowProperties(object) {
 var str = [ '
-
-
 <table>
-  &lt;caption>Properties of object "' + ( object.id || object.toString() ) + '"&lt;/caption>
-  
-  ' ];
+  &lt;caption>Properties of object "' + ( object.id || object.toString() ) + '"&lt;/caption>' ];
   var c, i, j = 0;
   
   for( i in object ) {
   var prop = object[i];
   str[++j] = '
-  
-  
-  
   <tr>
     <td align="right">
       '+j+'
     </td>
-    
-    
     <td>
       '+i+'
     </td>
-    
-    
     <td>
       '+prop+'
     </td>
-    
   </tr>
   ';
   }
@@ -57,7 +46,8 @@ var str = [ '
 </table>
 ";
 debug(str.join('n'));
-}</pre>
+}
+```
 
 This creates a table of all the properties of the specified object and outputs it to the debug window using the normal debug call as described in our article.
 

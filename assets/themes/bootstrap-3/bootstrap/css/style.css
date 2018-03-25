@@ -1,1 +1,26 @@
 /*Isocra Custom Styles*/
+
+.date {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: gray;
+    font-size: 120%;
+}
+
+nav.navbar.navbar-default {
+    background: black;
+    border-radius: 0;
+}
+
+div#footer {
+    background: black;
+    color: white;
+}
+
+dt {
+    float: left;
+}
+
+dd {
+    margin-left: 100px;
+}

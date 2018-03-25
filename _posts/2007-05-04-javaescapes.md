@@ -15,26 +15,28 @@ We&#8217;ve recently had a problem where we wanted to produce a website in multi
 
 Unfortunately, it&#8217;s not quite that simple because properties files cannot be UTF-8, so getting the source languages into properties files proved to be nigh on impossible. There is a program `native2ascii` provided in the Java JDK, but this only copes with files in the current native locale, it can&#8217;t cope with UTF-8 files either.
 
-So, in the end we wrote a little utility to do it for us. It&#8217;s actually very straight forward, just a single  
-function does the trick:
+So, in the end we wrote a little utility to do it for us. It&#8217;s actually very straight forward, just a single
+ function does the trick:
 
-<pre class="brush:java">String encodedString(String line) {
-        StringBuffer out = new StringBuffer();
-        line = toUTF8(line);
-        char[] chars = line.toCharArray();
-        for (int i = 0; i &lt; chars.length; i++) {
-            char aChar = chars[i];
-            if (aChar &gt; 127) {
-                out.append(String.format("\u%04x", new Object[]{new Long((long) aChar)}));
-            } else {
-                out.append(aChar);
-            }
+```java
+String encodedString(String line) {
+    StringBuffer out = new StringBuffer();
+    line = toUTF8(line);
+    char[] chars = line.toCharArray();
+    for (int i = 0; i &lt; chars.length; i++) {
+        char aChar = chars[i];
+        if (aChar &gt; 127) {
+            out.append(String.format("\u%04x", new Object[]{new Long((long) aChar)}));
+        } else {
+            out.append(aChar);
         }
-        return out.toString();
-    }</pre>
+    }
+    return out.toString();
+}
+```
 
-All we have to do is go through each character and if it is larger than 127, then we just write it out  
-in the `u<em>xxx</em>` format.
+All we have to do is go through each character and if it is larger than 127, then we just write it out
+ in the `u<em>xxx</em>` format.
 
 You can take this code and call it from a loop that reads in a text file and then outputs it again (though you might have to tell Java what the encoding of the file is).
 

@@ -14,9 +14,10 @@ This is a little tip that I discovered a while ago but which I&#8217;m always fo
 
 Javascript has a confirm dialog that you can use, but because you can use the return value of a method to determine event bubbling, you can use this really neatly to give optional links as follows:
 
-<pre class="brush:javascript"><a href="http://www.isocra.com" onclick="javascript:return confirm('Are you sure you want to go to our home page ?')">
+```javascript
+<a href="http://www.isocra.com" onclick="javascript:return confirm('Are you sure you want to go to our home page ?')">
 Click here to go to home page</a>
-</pre>
+```
 
 And of course you can try it yourself: <a href="http://www.isocra.com" onclick="javascript:return confirm('Are you sure you want to go to our home page ?')">Click here to go to home page</a>.
 

@@ -26,7 +26,7 @@ There are many articles on implementing drag and drop in Javascript and many exc
   <div id="debug" style="float: right;">
   </div>
   
-  <table id="table-1" cellspacing="0" cellpadding="2">
+  <table id="table-1" cellspacing="0" cellpadding="2" class="table table-striped">
     <tr id="1">
       <td>
         1
@@ -125,7 +125,8 @@ The steps you need are:
 
 In order to make this neat and reusable I have encapsulated the required data in a class (we&#8217;re also going to add functionality in here later):
 
-<pre class="brush:javascript">function TableDnD() {
+```javascript
+function TableDnD() {
     /** Keep hold of the current drag object if any */
     this.dragObject = null;
     /** The current mouse offset */
@@ -137,7 +138,8 @@ In order to make this neat and reusable I have encapsulated the required data in
     this.oldY = 0;
 
     // rest of the code goes here...
-}</pre>
+}
+```
 
 The class has instance variables for the currently dragged object, the current mouse offset, the current table, and the oldY so that we can detect if we&#8217;re moving up or down. We will create one TableDnD object for each table for which we want to enable to drag and drop
 
@@ -145,7 +147,8 @@ The class has instance variables for the currently dragged object, the current m
 
 Now we need to capture the `document.onmousemove` and `document.onmouseup` events so that we can track where the user drags and drops the row. The first version that I developed captured the events insidethe TableDnD object, but this doesn&#8217;t work if you want multiple tables on the same page. So we have to abstract this out and have global handlers for the whole page. We also therefore need to know which TableDnD object we&#8217;re currently concerned with (in other words which one, if any, initiated the drag). So, here are the event handlers event handlers we need (and a global variable to keep track):
 
-<pre class="brush:javascript">/** Keep hold of the current table being dragged */
+```javascript
+/** Keep hold of the current table being dragged */
 var currenttable = null;
 
 /** Capture the onmousemove so that we can see if a row from the current
@@ -194,7 +197,8 @@ document.onmouseup = function(ev){
         currenttable.onDrop(currenttable.table, droppedRow);
         currenttable = null; // let go of the table too
     }
-}</pre>
+}
+```
 
 In the `onmousemove` method itself, we first of all check to see if we have a current table, and if so, does that have a dragObject. If not, we don&#8217;t need to do anything. If we do have a dragObject, then we need to get the event. In Internet Explorer, the event is global and accessible using `window.event`, in Firefox and other browsers it is passed in as a parameter, so we need to check for both cases. Once we have that, we can get the mouse coordinates (again code to follow), and check the y position. Because we&#8217;re only dragging rows, we&#8217;re only interested in the vertical direction, if the y value hasn&#8217;t changed, then we don&#8217;t need to do anything (we could also put in a threshold here so we don&#8217;t worry about small movements).
 
@@ -208,72 +212,78 @@ The `onmouseup` method is much more straight forward. All we need to do is reset
 
 That&#8217;s what happens when we&#8217;re actually dragging something, but how do we initiate the drag? We need to capture the mouse down event on the rows that we want to drag. Back in our TableDnD class we add an `init` method which takes the table as a parameter and sets everything up:
 
-<pre class="brush:javascript">/** Initialise the drag and drop by capturing mouse move events */
+```javascript
+/** Initialise the drag and drop by capturing mouse move events */
 
-    this.init = function(table) {
-        this.table = table;
-        var rows = table.tBodies[0].rows; //getElementsByTagName("tr")
-        for (var i=0; i&lt;rows.length; i++) {
-            // John Tarr: added to ignore rows for which the NoDrag attribute is set
-            var nodrag = rows[i].getAttribute("NoDrag")
-            if (nodrag == null || nodrag == "undefined") { // There is no NoDrag attribute so make draggable
-                this.makeDraggable(rows[i]);
-            }
+this.init = function(table) {
+    this.table = table;
+    var rows = table.tBodies[0].rows; //getElementsByTagName("tr")
+    for (var i=0; i&lt;rows.length; i++) {
+        // John Tarr: added to ignore rows for which the NoDrag attribute is set
+        var nodrag = rows[i].getAttribute("NoDrag")
+        if (nodrag == null || nodrag == "undefined") { // There is no NoDrag attribute so make draggable
+            this.makeDraggable(rows[i]);
         }
-    }</pre>
+    }
+}
+```
 
 We get passed in the table whose rows we want to be able to drag and drop, so we remember that, then we go through all the rows in the table body and make them &#8220;draggable&#8221; (code for this coming soon). John Tarr contacted me to say that he needed to be able to control which rows were draggable and which not (for example headers shouldn&#8217;t be draggable). So he added a simple NoDrag attribute which can be used to switch off &#8220;draggability&#8221;.
 
 Of course you might want to do something with the table once row has been dropped, so I&#8217;ve made the method call an onDrop method passing it the table and the dropped row. The default implementation does nothing, but you can redefine it to do whatever you need to (in fact in my current project I use this to make an Ajax call to let the server know the new order of the rows).
 
-<pre class="brush:javascript">/** This function is called when you drop a row, so redefine it in your code
-        to do whatever you want, for example use Ajax to update the server */
-    this.onDrop = function(table, droppedRow) {
-        // Do nothing for now
-    }</pre>
+```javascript
+/** This function is called when you drop a row, so redefine it in your code
+    to do whatever you want, for example use Ajax to update the server */
+this.onDrop = function(table, droppedRow) {
+    // Do nothing for now
+}
+```
 
 ## Getting the coordinates
 
 Now we need some methods that get the mouse position from an event:
 
-<pre class="brush:javascript">/** Get the position of an element by going up the DOM tree and adding up all the offsets */
-    this.getPosition = function(e){
-        var left = 0;
-        var top  = 0;
+```javascript
+/** Get the position of an element by going up the DOM tree and adding up all the offsets */
+this.getPosition = function(e){
+    var left = 0;
+    var top  = 0;
 
-        while (e.offsetParent){
-            left += e.offsetLeft;
-            top  += e.offsetTop;
-            e     = e.offsetParent;
-        }
-
+    while (e.offsetParent){
         left += e.offsetLeft;
         top  += e.offsetTop;
-
-        return {x:left, y:top};
+        e     = e.offsetParent;
     }
 
-    /** Get the mouse coordinates from the event (allowing for browser differences) */
-    this.mouseCoords = function(ev) {
-        if(ev.pageX || ev.pageY){
-            return {x:ev.pageX, y:ev.pageY};
-        }
-        return {
-            x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-            y:ev.clientY + document.body.scrollTop  - document.body.clientTop
-        };
+    left += e.offsetLeft;
+    top  += e.offsetTop;
+
+    return {x:left, y:top};
+}
+
+/** Get the mouse coordinates from the event (allowing for browser differences) */
+this.mouseCoords = function(ev) {
+    if(ev.pageX || ev.pageY){
+        return {x:ev.pageX, y:ev.pageY};
     }
+    return {
+        x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y:ev.clientY + document.body.scrollTop  - document.body.clientTop
+    };
+}
 
-    <span class="comment">/** Given a target element and a mouse event, get the mouse offset from that element.
-        To do this we need the element's position and the mouse position */</span>
+/** Given a target element and a mouse event, get the mouse offset from that element.
+ To do this we need the element's position and the mouse position */
 
-    this.getMouseOffset = function(target, ev){
-        ev = ev || window.event; // In FireFox and Safari, we get passed the event, in IE we need to get it
+this.getMouseOffset = function(target, ev){
+    ev = ev || window.event; // In FireFox and Safari, we get passed the event, in IE we need to get it
 
-        var docPos    = this.getPosition(target);
-        var mousePos  = this.mouseCoords(ev);
-        return {x:mousePos.x - docPos.x, y:mousePos.y - docPos.y};
-    }</pre>
+    var docPos    = this.getPosition(target);
+    var mousePos  = this.mouseCoords(ev);
+    return {x:mousePos.x - docPos.x, y:mousePos.y - docPos.y};
+}
+```
 
 The first method, *getPosition*, takes an element and walks up the DOM using offsetParent to add up all the offsets to get the absolute position of the element. It returns the position as an object with x and y instance variables.
 
@@ -285,47 +295,49 @@ The final method in this trio is *getMouseOffset* this takes a target element an
 
 We need two more methods to complete our class:
 
-<pre class="brush:javascript">/** Take an item and add an onmousedown method so that we can make it draggable */
-    this.makeDraggable = function(item){
-        if(!item) return;
-        var self = this; // Keep the context of the TableDnd inside the function
-        item.onmousedown = function(ev){
-            // get the event source in a browser independent way
-            var target = getEventSource(ev);
-            // if it's an INPUT or a SELECT, then let the event bubble through, don't do a drag
-            if (target.tagName == 'INPUT' || target.tagName == 'SELECT') return true;
-            self.dragObject  = this;
-            self.mouseOffset = self.getMouseOffset(this, ev);
-            return false;
-        }
-        item.style.cursor = "move";
+```javascript
+/** Take an item and add an onmousedown method so that we can make it draggable */
+this.makeDraggable = function(item){
+    if(!item) return;
+    var self = this; // Keep the context of the TableDnd inside the function
+    item.onmousedown = function(ev){
+        // get the event source in a browser independent way
+        var target = getEventSource(ev);
+        // if it's an INPUT or a SELECT, then let the event bubble through, don't do a drag
+        if (target.tagName == 'INPUT' || target.tagName == 'SELECT') return true;
+        self.dragObject  = this;
+        self.mouseOffset = self.getMouseOffset(this, ev);
+        return false;
     }
+    item.style.cursor = "move";
+}
 
-    /** We're only worried about the y position really, because we can only move rows up and down */
+/** We're only worried about the y position really, because we can only move rows up and down */
 
-    this.findDropTargetRow = function(y) {
-        var rows = this.table.tBodies[0].rows;
-        for (var i=0; i&lt;rows.length; i++) {
-            var row = rows[i];
-            // John Tarr added to ignore rows that I've added the NoDrop attribute to (Header rows)
-            var nodrop = row.getAttribute("NoDrop");
-            if (nodrop == null || nodrop == "undefined") {  //There is no NoDrop attribute on rows I want to drag
-                var rowY    = this.getPosition(row).y;
-                var rowHeight = parseInt(row.offsetHeight)/2;
-                if (row.offsetHeight == 0) {
-                    rowY = this.getPosition(row.firstChild).y;
-                    rowHeight = parseInt(row.firstChild.offsetHeight)/2;
-                }
-                // Because we always have to insert before, we need to offset the height a bit
-                if ((y &gt; rowY - rowHeight) && (y &lt; (rowY + rowHeight))) {
-                    // that's the row we're over
+this.findDropTargetRow = function(y) {
+    var rows = this.table.tBodies[0].rows;
+    for (var i=0; i&lt;rows.length; i++) {
+        var row = rows[i];
+        // John Tarr added to ignore rows that I've added the NoDrop attribute to (Header rows)
+        var nodrop = row.getAttribute("NoDrop");
+        if (nodrop == null || nodrop == "undefined") {  //There is no NoDrop attribute on rows I want to drag
+            var rowY    = this.getPosition(row).y;
+            var rowHeight = parseInt(row.offsetHeight)/2;
+            if (row.offsetHeight == 0) {
+                rowY = this.getPosition(row.firstChild).y;
+                rowHeight = parseInt(row.firstChild.offsetHeight)/2;
+            }
+            // Because we always have to insert before, we need to offset the height a bit
+            if ((y &gt; rowY - rowHeight) && (y &lt; (rowY + rowHeight))) {
+                // that's the row we're over
 
-                    return row;
-                }
+                return row;
             }
         }
-        return null;
-    }</pre>
+    }
+    return null;
+}
+```
 
 The first, *makeDraggable* is called from the `init` function for each row in the table. It defines an `onmousedown` event handler to set the dragObject and the initial mouse offset (so we can track movements relative to the initial drag position). Now inside the `onmousedown` event handler that we are adding to each row, we want to be able to access the current TableDnD object, we can&#8217;t use `this` because it will be changed to the current object when the event handler is called, so instead we have a variable `self` which we bind to `this` outside the handler but which retains it&#8217;s value inside. Now the handler can refer directly to the methods and data on the TableDnD object. Inside the event handler we also need to check to see what the event source is, because if we capture and consume the `onmousedown` event for form elements, then the user won&#8217;t be able to click in them and type, or select. So in that case we have to just bubble it up by returning `true`.
 
@@ -341,7 +353,8 @@ In fact there was still a problem with Safari because the row&#8217;s offsetTop 
 
 As well as the class we need one more global method to get the event source. IE and Firefox (and the others) do this in different ways. We could add this as an instance method on the TableDnD class, but because there is no TableDnD context needed, I decided to just make it a globally accessible method. Here it is:
 
-<pre class="brush:javascript">/** get the source element from an event in a way that works for IE and Firefox and Safari
+```javascript
+/** get the source element from an event in a way that works for IE and Firefox and Safari
  * @param evt the source event for Firefox (but not IE--IE uses window.event) */
 
 function getEventSource(evt) {
@@ -351,21 +364,25 @@ function getEventSource(evt) {
     } else {
         return evt.target; // For Firefox
     }
-}</pre>
+}
+```
 
 ## Putting it all together
 
 You can download the complete class and other methods from the [resources][5] below and then link to it from your web page. The next thing you need to do is to have a table, and then you can drag-enable the table by adding the following javascript either inline below the table HTML or in the `document.onload` event handler.
 
-<pre class="brush:javascript">&lt;script type="text/javascript"&gt;
+```html
+<script type="text/javascript">
 var table = document.getElementById('table-1');
 var tableDnD = new TableDnD();
 tableDnD.init(table);
-&lt;/script&gt;</pre>
+</script>
+```
 
 So all you need to do is create an instance of the TableDnD class, and then call `init` on it passing it the table you want to use. If you want to do something special when a row is dropped, you can add something like this:
 
-<pre class="brush:javascript">// Redefine the onDrop so that we can display something
+```javascript
+// Redefine the onDrop so that we can display something
 tableDnD.onDrop = function(table, row) {
     var rows = this.table.tBodies[0].rows;
     var debugStr = "rows now: ";
@@ -373,7 +390,8 @@ tableDnD.onDrop = function(table, row) {
         debugStr += rows[i].id+" ";
     }
     document.getElementById('debug').innerHTML = 'row['+row.id+'] dropped&lt;br&gt;'+debugStr;
-}</pre>
+}
+```
 
 In fact if you look at the source of this page you can see how I implemented the debugging information displayed as you drag rows in the demonstration table at the beginning of this article.
 
@@ -383,7 +401,7 @@ Here&#8217;s a final example showing that you can have two separate tables on th
 SELECTs, and header rows which aren&#8217;t draggable or droppable:
 
 <div class="tableDemo">
-  <table id="table-2" cellspacing="0" cellpadding="2">
+  <table id="table-2" cellspacing="0" cellpadding="2" class="table table-striped">
     <tr>
       <th>
         Label
