@@ -1,4 +1,26 @@
 /*Isocra Custom Styles*/
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+}
+
+.navbar-default .navbar-brand {
+    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    text-shadow: none;
+    color: white;
+}
+
+.navbar-brand, .navbar-nav>li>a {
+    text-shadow: none;
+}
+
+#wrap {
+    padding: 0;
+}
 
 .date {
     margin-bottom: 20px;
@@ -10,11 +32,13 @@
 nav.navbar.navbar-default {
     background: black;
     border-radius: 0;
+    margin: 0 -15px 0 -15px;
 }
 
 div#footer {
     background: black;
     color: white;
+    margin-top: 30px;
 }
 
 dt {
@@ -23,4 +47,10 @@ dt {
 
 dd {
     margin-left: 110px;
+}
+
+.client-say-2 {
+    margin-bottom: 10px;
+    color: gray;
+    font-style: italic;
 }
