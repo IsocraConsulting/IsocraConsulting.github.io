@@ -22,7 +22,10 @@ style: |
     font-family: Arial;
   }
   button.add {
-    background-image: url(img/add.gif);
+    background-image: url(/images/add.gif);
+  }
+  button.remove {
+    background-image: url(/images/remove.gif);
   }
 ---
 I read a blog post recently showing how to create a button with an image and text. The button looked very simple and very nice to look at, but the HTML was more complicated than I thought it needed to be.
@@ -73,7 +76,7 @@ selector for the add class:
 
 {% highlight css %}
 button.add {
-    background-image: url(img/add.gif);
+    background-image: url(/images/add.gif);
 }
 {% endhighlight %}
 
@@ -82,7 +85,7 @@ adding another image to the CSS:
 
 {% highlight css %}
 button.remove {
-    background-image: url(img/remove.gif);
+    background-image: url(/images/remove.gif);
 }
 {% endhighlight %}
 
@@ -100,7 +103,7 @@ button.imageBtn:hover {
 
 This changes the border to a darker grey and underlines the text. Here&#8217;s the final result:
 
-<button class="imageBtn add" onclick="alert('Hello!'); return false;">Add Something</button>&nbsp;<button class="imageBtn remove" onclick="alert('Goodbye!'); return false;">Remove Something</button>
+<button class="imageButton add" onclick="alert('Hello!'); return false;">Add Something</button>&nbsp;<button class="imageButton remove" onclick="alert('Goodbye!'); return false;">Remove Something</button>
 
 Unfortunately on IE6 you don&#8217;t get the hover effect and on Firefox 2.0.0.14 you get the border change but not the text underlining. Also, in IE6 and IE7, the buttons are much wider than I&#8217;d  
 like them to be. It isn&#8217;t the border or the padding because I set those explicitly, it isn&#8217;t the margin either because I&#8217;ve tried setting that. You could set the width explicitly, but of course  
