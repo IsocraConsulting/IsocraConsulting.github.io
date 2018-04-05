@@ -55,7 +55,7 @@ Getting all this working with Entourage as well was not easy. Entourage does wor
 
 Taking Entourage out of the equation does seem to have simplified things and now I don&#8217;t seem to get quadruple events for the dentist and so on.
 
-## Conclusion</h3> 
+## Conclusion 
 
 Both applications do all the basic stuff well and have lots of good features in common, for example the Smart Folders and Smart Mailboxes each allow you to see all the emails that conform to the constraints that you specify regardless or where they are actually stored. Both applications have rules that can move emails into folders or delete them or whatever. Each app supports some sort of To Do items and allow you to create and accept invitations to appointments. Mail provides &#8220;stationery&#8221; to jazz up your emails, but though that might be nice for home use, I can&#8217;t see a real application for it. It would have been more useful to make it easy to add in rich home-made HTML. 
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <link type="text/css" href="imageButton.css" rel="stylesheet" media="all"/>
+    <title>Image Button Blog Entry</title>
+</head>
+<body>
+<div id="page">
+    
+<p>I read a blog post recently showing how to create a button with an image and text. The button looked very simple and very nice to look at, but the HTML was more complicated than I thought it needed to be.</p>
+
+<p>There is a move now to make the HTML of a document as simple and self-explanatory as possible. The HTML should contain the <i>intent</i> of the page, CSS (and possibly JavaScript) is then used "skin" the page as required. This has become more feasible now that browsers are finally maturing and supporting more and more of the CSS standard.</p>
+
+<p>So, if we want a button, we should use the &lt;button&gt;...&lt;/button&gt; tag. If we want to have an add button, we want to have:</p>
+<pre>
+    &lt;button class="imageButton add" onclick="addSomething(); return false;"&gt;Add Something&lt;/button&gt;
+</pre>    
+<p>And instead of this</p>
+
+<button onclick="alert('Hello!'); return false;">Add Something</button>
+
+<p>we want it to look like this:</p>
+
+<button class="imageBtn add" onclick="alert('Hello!'); return false;">Add Something</button>
+
+<p>This seems to convey everything that we need without adding any extra HTML. There is also a move towards unobtrusive JavaScript and if we use jQuery, then we could put the onclick call into the $(document).ready(...) function and that would make the HTML simpler (on the other hand it would mean a dislocation between the functionality and the button and would mean that developers looking at the HTML would have to search around to find out where the functionality was specified.</p>
+
+<h2>Now to the CSS</h2>
+
+<p>I'm allowing myself two classes, "imageButton" and "add" I think this is justified because the first tells me that I want this button to look like an image button and the second one tells me it is an add button.</p>
+<pre>
+button.imageButton {
+    border: 1px solid silver;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 1px center;
+    padding: 1px 1px 1px 28px;
+    height: 30px;
+    cursor: pointer;
+    font-family: Arial;
+}
+</pre>
+<p>The imageButton class changes the overall look of any button with this class. It changes the border to a single pixel solid silver. You can change this to any colour you like or even remove the border completely. It also sets the background colour and then sets up some defaults for the image for the button. We want the image to be on the left (indented by 2 pixels so it isn't touching the border), but in the centre vertically. We also want to make sure that the text is indented so that there is room for the image (I'm assuming that I know that all image are 24px square). For this reason I also set the button height to be 30px to allow some space above and below the image. Finally it sets the cursor to a pointer so that it's obvious when the user moves over it that it's a button and sets the font to something appropriate. This is what a button with this style looks like. We can add the imageButton class to all our buttons to make them look the same.</p>
+
+<button class="imageButton" onclick="alert('Hello!'); return false;">Basic</button>
+
+<p>Now we need to add the image. I'm adding this as a background image so that it doesn't interfere with the HTML and doesn't appear as selectable to the user. All we need is a very simple
+selector for the add class:</p>
+<pre>
+button.add {
+    background-image: url(img/add.gif);
+}
+</pre>
+<p>This adds the image and there we go. Now all the add buttons throughout the website can reuse the same two classes and adding other buttons (for example a remove button) is as simple as
+adding another image to the CSS:</p>
+<pre>
+button.remove {
+    background-image: url(img/remove.gif);
+}
+</pre>
+<button class="imageButton add" onclick="alert('Hello!'); return false;">Add Something</button>&nbsp;
+<button class="imageButton remove" onclick="alert('Goodbye!'); return false;">Remove Something</button>
+<p>Now there's one final flourish that we can add. We can add a <i>:hover</i> class so that when the user moves over the button they get some visual feedback. This is pretty straightforward
+to add. All we need is:</p>
+<pre>
+button.imageBtn:hover {
+    text-decoration: underline;
+    border: 1px solid gray;
+}
+</pre>
+<p>This changes the border to a darker grey and underlines the text. Here's the final result:</p>
+<button class="imageBtn add" onclick="alert('Hello!'); return false;">Add Something</button>&nbsp;
+<button class="imageBtn remove" onclick="alert('Goodbye!'); return false;">Remove Something</button>
+<p>Unfortunately on IE6 you don't get the hover effect and on Firefox 2.0.0.14 you get the border change but not the text underlining. Also, in IE6 and IE7, the buttons are much wider than I'd
+like them to be. It isn't the border or the padding because I set those explicitly, it isn't the margin either because I've tried setting that. You could set the width explicitly, but of course
+that means that you might get the text not fitting into the button. If anyone knows another fix, please let me know.</p>
+</div>
+</body>
+</html>
