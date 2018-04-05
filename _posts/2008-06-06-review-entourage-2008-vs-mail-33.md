@@ -67,5 +67,5 @@ Of course if you use IMAP to access your mailboxes, you can potentially use both
  [2]: http://discussions.apple.com/thread.jspa?messageID=5724060
  [3]: http://spambayes.sourceforge.net/
  [4]: http://blog.entourage.mvps.org/2008/01/entourage_and_time_machine.html
- [5]: www.markspace.com
+ [5]: http://www.markspace.com
  [6]: http://www.busymac.com/

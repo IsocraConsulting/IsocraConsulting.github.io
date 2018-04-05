@@ -3,11 +3,6 @@ title: Services
 author: denish
 layout: page
 ---
-<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
-
-<div style="float:left;margin:10px 10px 10px 0;">
-</div>
-
 Isocra is based in Cambridge, UK and undertakes work for clients in the UK, Europe and the US.
 
 We provide technical and project management consultancy for web and Java projects of all sizes. We have experience in enterprise-scale software development for customers such as British Airways and Citibank.
@@ -30,10 +25,8 @@ We provide bespoke training in object-oriented software development and in progr
 
 Our staff can act as expert witnesses for cases involving software development. [&#8230;more about expert witness services][4]
 
-<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both">
-</div>
 
- [1]: consultancy/
- [2]: development/
- [3]: training/
- [4]: expertwitness/
+ [1]: /consultancy
+ [2]: /development
+ [3]: /training
+ [4]: /expertwitness
