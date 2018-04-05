@@ -54,3 +54,28 @@ dd {
     color: gray;
     font-style: italic;
 }
+
+/* Styles for the search */
+ul#results-container {
+    position: absolute;
+    right: 16px;
+    margin-top: 4px;
+    background-color: white;
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    border: 1px solid silver;
+    box-shadow: 2px 4px 4px #eee;
+}
+
+ul#results-container li {
+    padding: 4px;
+}
+
+ul#results-container li:hover {
+    background-color: #dbb4ee;
+}
+
+ul#results-container a:hover {
+    text-decoration: none;
+}
